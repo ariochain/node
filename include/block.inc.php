@@ -298,7 +298,7 @@ class Block
          * 
          * 
          * */
-
+/*
         $res = $db->run(
             "SELECT 1 FROM networkstats"
         );
@@ -324,6 +324,14 @@ class Block
             while ($i < ($rewardR) ) {
 
                 $denominator = $denomine * $i;
+
+                print_r($i);
+
+                if ($i > 216) {
+                    //inak
+                    print_r('216' . $i );
+                }
+  
                 
                 $rewardD = $rewardD + (($startline - $denominator) * 10800);
 
@@ -338,6 +346,10 @@ class Block
             
 
             if ($reward < 1) {$reward = 1000;}
+
+            if ($height > 216000) {
+
+            }
 
             $data = $json['data'];
 
@@ -357,7 +369,7 @@ class Block
                 $bind
             );
         }
-
+*/
         return true;
     }
 
