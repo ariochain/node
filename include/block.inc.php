@@ -325,11 +325,15 @@ class Block
 
                 $denominator = $denomine * $i;
 
-                print_r($i);
+                _log($i,3);
+                //print_r($i);
 
                 if ($i > 216) {
                     //inak
-                    print_r('216' . $i );
+                    //print_r('216' . $i );
+                    _log('216',3);
+                    _log($i,3);
+
                 }
   
                 
