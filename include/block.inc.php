@@ -298,7 +298,7 @@ class Block
          * 
          * 
          * */
-/*
+
         $res = $db->run(
             "SELECT 1 FROM networkstats"
         );
@@ -369,7 +369,7 @@ class Block
                 $bind
             );
         }
-*/
+
         return true;
     }
 
