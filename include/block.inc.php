@@ -291,6 +291,73 @@ class Block
         }
         // relese the locking as everything is finished
         $db->exec("UNLOCK TABLES");
+
+        /***
+         * 
+         * 
+         * 
+         * 
+         * */
+
+        $res = $db->run(
+            "SELECT 1 FROM networkstats"
+        );
+
+        if($res !== FALSE) {
+
+            $hostname = 'https://www.ariochain.info'; // hardcoded
+
+            $apiUrl = $hostname.'/api.php?q=node-info';
+            $aroUrl=file_get_contents($apiUrl);
+            $json=json_decode($aroUrl,true);
+
+            $supply = 0;
+
+            $rewardR = (int) bcdiv($height , 10800, 2);
+            $rewardZ = round($height % 10800);
+            $rewardD = 0;
+            $startline = 1000;
+            $denomine = 10;
+            $rewardZostatok = 0;
+            $i = 0;
+
+            while ($i < ($rewardR) ) {
+
+                $denominator = $denomine * $i;
+                
+                $rewardD = $rewardD + (($startline - $denominator) * 10800);
+
+                $i++;
+            }
+
+            $denominator = $denomine * $i;
+            $rewardZostatok = $rewardZ * ($startline - $denominator);
+
+            $supply = round($rewardD + $rewardZostatok);
+            $reward = $startline - $denominator;
+            
+
+            if ($reward < 1) {$reward = 1000;}
+
+            $data = $json['data'];
+
+            $bind = [
+                ":id" => 0,
+                ":height" => $height,
+                ":difficulty" => $difficulty,
+                ":accounts" => $data['accounts'],
+                ":transactions" => $data['transactions'],
+                ":masternodes" => $data['masternodes'],
+                ":supply" => $supply,
+                ":reward" => $reward
+            ];
+
+            $res = $db->run(
+                "INSERT into networkstats SET id=:id, height=:height, difficulty=:difficulty, accounts=:accounts, transactions=:transactions, masternodes=:masternodes, supply=:supply, reward=:reward",
+                $bind
+            );
+        }
+
         return true;
     }
 
