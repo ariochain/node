@@ -320,6 +320,8 @@ class Block
             $denomine = 10;
             $rewardZostatok = 0;
             $i = 0;
+            _log($rewardR,3);
+            _log($rewardZ,3);
 
             while ($i < ($rewardR) ) {
 
@@ -328,31 +330,49 @@ class Block
                 _log($i,3);
                 //print_r($i);
 
-                if ($i > 216) {
+                if ($i > 18) {
                     //inak
                     //print_r('216' . $i );
-                    _log('216',3);
+                    _log('18',3);
                     _log($i,3);
+                    
+                    $reward=200;
+                    $factor = floor(($height - 216000) / 43200) / 100;
+                    $reward -= $reward * $factor;
+                    _log($reward,3);
 
-                }
-  
-                
+                    $rewardD = $rewardD + (($reward) * 10800);
+
+
+                } else 
                 $rewardD = $rewardD + (($startline - $denominator) * 10800);
-
+                _log($rewardD,3);
                 $i++;
             }
 
-            $denominator = $denomine * $i;
-            $rewardZostatok = $rewardZ * ($startline - $denominator);
+            if ($i > 19) {
 
-            $supply = round($rewardD + $rewardZostatok);
-            $reward = $startline - $denominator;
-            
+                $reward=200;
+                $factor = floor(($height - 216000) / 43200) / 100;
+                $reward -= $reward * $factor;
+                _log($reward,3);
+                $rewardZostatok = $rewardZ * $reward;
+                _log($rewardZostatok,3);
+                $supply = round($rewardD + $rewardZostatok);
+                _log($supply,3);
 
-            if ($reward < 1) {$reward = 1000;}
+            } else {
+                $denominator = $denomine * $i;
+                $rewardZostatok = $rewardZ * ($startline - $denominator);
+                _log($rewardZostatok,3);
 
-            if ($height > 216000) {
+                $supply = round($rewardD + $rewardZostatok);
+                $reward = $startline - $denominator;
+                _log($reward,3);
+                _log($supply,3);
 
+    
+                if ($reward < 1) {$reward = 1000;}
             }
 
             $data = $json['data'];
