@@ -333,15 +333,37 @@ class Block
                 if ($i > 18) {
                     //inak
                     //print_r('216' . $i );
-                    _log('18',3);
+                    _log('18 bolo',3);
                     _log($i,3);
                     
                     $reward=200;
                     $factor = floor(($height - 216000) / 43200) / 100;
                     $reward -= $reward * $factor;
+                    $mn_reward_rate=0.33;
+                    // hf
+                    if ($height>216000) {
+                        $votes=[];
+                        $r=$db->run("SELECT id,val FROM votes");
+                        foreach ($r as $vote) {
+                            $votes[$vote['id']]=$vote['val'];
+                        }
+                        // emission cut by 30%
+                        if ($votes['emission30']==1) {
+                            $reward=round($reward*0.7);
+                        }
+                        // 50% to masternodes
+                        if ($votes['masternodereward50']==1) {
+                            $mn_reward_rate=0.5;
+                        }
+            
+                        // minimum reward to always be 10 aro
+                        if ($votes['endless10reward']==1&&$reward<10) {
+                            $reward=10;
+                        }
+                    }
                     _log($reward,3);
 
-                    $rewardD = $rewardD + (($reward) * 10800);
+                    $rewardD = $rewardD + (($reward) * 43200);
 
 
                 } else 
@@ -355,6 +377,29 @@ class Block
                 $reward=200;
                 $factor = floor(($height - 216000) / 43200) / 100;
                 $reward -= $reward * $factor;
+                $mn_reward_rate=0.33;
+                // hf
+                if ($height>216000) {
+                    $votes=[];
+                    $r=$db->run("SELECT id,val FROM votes");
+                    foreach ($r as $vote) {
+                        $votes[$vote['id']]=$vote['val'];
+                    }
+                    // emission cut by 30%
+                    if ($votes['emission30']==1) {
+                        $reward=round($reward*0.7);
+                    }
+                    // 50% to masternodes
+                    if ($votes['masternodereward50']==1) {
+                        $mn_reward_rate=0.5;
+                    }
+        
+                    // minimum reward to always be 10 aro
+                    if ($votes['endless10reward']==1&&$reward<10) {
+                        $reward=10;
+                    }
+                }
+                
                 _log($reward,3);
                 $rewardZostatok = $rewardZ * $reward;
                 _log($rewardZostatok,3);
@@ -374,6 +419,8 @@ class Block
     
                 if ($reward < 1) {$reward = 1000;}
             }
+
+
 
             $data = $json['data'];
 
