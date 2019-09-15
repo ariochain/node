@@ -313,8 +313,28 @@ class Block
 
             $supply = 0;
 
-            $rewardR = (int) bcdiv($height , 10800, 2);
-            $rewardZ = round($height % 10800);
+            $last = $height;
+            $cut = false;
+            $addround = 0;
+            $rounder = 0;
+    
+            $rewardR = (int) bcdiv($last , 10800, 2);
+            if ($rewardR > 19) {
+                $rounder = $rewardR - 20;
+                if ($rounder > 0) {
+                    $addround = bcdiv($rounder, 4);
+                }
+                $rewardR = 20 + $addround;
+                $rewardZ = $last - 216000 - ( $addround * 43200 );
+    
+            } else {
+                $rewardZ = round($last % 10800);
+    
+            }
+
+
+
+
             $rewardD = 0;
             $startline = 1000;
             $denomine = 10;
