@@ -399,7 +399,7 @@ class Block
                         $reward=10;
                     }
                 }
-                
+
                 _log($reward,3);
                 $rewardZostatok = $rewardZ * $reward;
                 _log($rewardZostatok,3);
@@ -409,15 +409,15 @@ class Block
             } else {
                 $denominator = $denomine * $i;
                 $rewardZostatok = $rewardZ * ($startline - $denominator);
-                _log($rewardZostatok,3);
 
                 $supply = round($rewardD + $rewardZostatok);
                 $reward = $startline - $denominator;
-                _log($reward,3);
-                _log($supply,3);
-
     
                 if ($reward < 1) {$reward = 1000;}
+
+                _log($reward,3);
+                _log($rewardZostatok,3);
+                _log($supply,3);
             }
 
 
