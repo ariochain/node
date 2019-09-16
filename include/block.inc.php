@@ -314,7 +314,7 @@ class Block
 
             $last = $height;
             //$last = 216000 + ( 43200 * 0);
-            $i = 0;
+            $i = 1;
             $supply = 0;
             $max = 500904660;
     
