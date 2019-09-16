@@ -368,11 +368,12 @@ class Block
                 ":transactions" => $data['transactions'],
                 ":masternodes" => $data['masternodes'],
                 ":supply" => $supply,
-                ":reward" => $reward
+                ":reward" => $reward,
+                ":mn_reward" => $mn_reward_rate
             ];
 
             $res = $db->run(
-                "INSERT into networkstats SET id=:id, height=:height, difficulty=:difficulty, accounts=:accounts, transactions=:transactions, masternodes=:masternodes, supply=:supply, reward=:reward",
+                "INSERT into networkstats SET id=:id, height=:height, difficulty=:difficulty, accounts=:accounts, transactions=:transactions, masternodes=:masternodes, supply=:supply, reward=:reward, mn_reward=:mn_reward",
                 $bind
             );
         }
