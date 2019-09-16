@@ -310,137 +310,53 @@ class Block
             $apiUrl = $hostname.'/api.php?q=node-info';
             $aroUrl=file_get_contents($apiUrl);
             $json=json_decode($aroUrl,true);
-
-            $supply = 0;
+            $cut = false;
 
             $last = $height;
-            $cut = false;
-            $addround = 0;
-            $rounder = 0;
-    
-            $rewardR = (int) bcdiv($last , 10800, 2);
-            if ($rewardR > 19) {
-                $rounder = $rewardR - 20;
-                if ($rounder > 0) {
-                    $addround = bcdiv($rounder, 4);
-                }
-                $rewardR = 20 + $addround;
-                $rewardZ = $last - 216000 - ( $addround * 43200 );
-    
-            } else {
-                $rewardZ = round($last % 10800);
-    
-            }
-
-
-
-
-            $rewardD = 0;
-            $startline = 1000;
-            $denomine = 10;
-            $rewardZostatok = 0;
+            //$last = 216000 + ( 43200 * 0);
             $i = 0;
-            _log($rewardR,3);
-            _log($rewardZ,3);
-
-            while ($i < ($rewardR) ) {
-
-                $denominator = $denomine * $i;
-
-                _log($i,3);
-                //print_r($i);
-
-                if ($i > 18) {
-                    //inak
-                    //print_r('216' . $i );
-                    _log('18 bolo',3);
-                    _log($i,3);
-                    
-                    $reward=200;
-                    $factor = floor(($height - 216000) / 43200) / 100;
-                    $reward -= $reward * $factor;
-                    $mn_reward_rate=0.33;
-                    // hf
-                    if ($height>216000) {
-                        $votes=[];
-                        $r=$db->run("SELECT id,val FROM votes");
-                        foreach ($r as $vote) {
-                            $votes[$vote['id']]=$vote['val'];
-                        }
-                        // emission cut by 30%
-                        if ($votes['emission30']==1) {
-                            $reward=round($reward*0.7);
-                        }
-                        // 50% to masternodes
-                        if ($votes['masternodereward50']==1) {
-                            $mn_reward_rate=0.5;
-                        }
-            
-                        // minimum reward to always be 10 aro
-                        if ($votes['endless10reward']==1&&$reward<10) {
-                            $reward=10;
-                        }
-                    }
-                    _log($reward,3);
-
-                    $rewardD = $rewardD + (($reward) * 43200);
-
-
-                } else 
-                $rewardD = $rewardD + (($startline - $denominator) * 10800);
-                _log($rewardD,3);
-                $i++;
+            $supply = 0;
+            $max = 500904660;
+    
+    
+            $mn_reward_rate=0.33;
+    
+            if ($last>216000) {
+                $votes=[];
+                $r=$this->db('SELECT id, val FROM votes');
+                foreach ($r as $vote) {
+                    $votes[$vote['id']]=$vote['val'];
+                }
+    
+                // 50% to masternodes
+                if ($votes['masternodereward50']==1) {
+                    $mn_reward_rate=0.5;
+                }
+    
+                // minimum reward to always be 10 aro
+                if ($votes['endless10reward']==1&&$reward<10) {
+                    $reward=10;
+                }
             }
-
-            if ($i > 19) {
-
-                $reward=200;
-                $factor = floor(($height - 216000) / 43200) / 100;
-                $reward -= $reward * $factor;
-                $mn_reward_rate=0.33;
-                // hf
-                if ($height>216000) {
-                    $votes=[];
-                    $r=$db->run("SELECT id,val FROM votes");
-                    foreach ($r as $vote) {
-                        $votes[$vote['id']]=$vote['val'];
-                    }
-                    // emission cut by 30%
+    
+            while ($i <= ($last) ) {
+    
+                $reward = $this->reward($i);
+                if ($i>216000) {
+                // emission cut by 30%
                     if ($votes['emission30']==1) {
                         $reward=round($reward*0.7);
-                    }
-                    // 50% to masternodes
-                    if ($votes['masternodereward50']==1) {
-                        $mn_reward_rate=0.5;
-                    }
-        
-                    // minimum reward to always be 10 aro
-                    if ($votes['endless10reward']==1&&$reward<10) {
-                        $reward=10;
+                        $cut = true;
                     }
                 }
-
-                _log($reward,3);
-                $rewardZostatok = $rewardZ * $reward;
-                _log($rewardZostatok,3);
-                $supply = round($rewardD + $rewardZostatok);
-                _log($supply,3);
-
-            } else {
-                $denominator = $denomine * $i;
-                $rewardZostatok = $rewardZ * ($startline - $denominator);
-
-                $supply = round($rewardD + $rewardZostatok);
-                $reward = $startline - $denominator;
     
-                if ($reward < 1) {$reward = 1000;}
-
-                _log($reward,3);
-                _log($rewardZostatok,3);
-                _log($supply,3);
+                $supply += $reward;
+                $i++;
+    
             }
 
-
+            _log($reward,3);
+            _log($supply,3);
 
             $data = $json['data'];
 
