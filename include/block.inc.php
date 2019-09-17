@@ -313,13 +313,14 @@ class Block
             $res = $db->run(
                 "SHOW TABLES LIKE 'networkstats'"
             );
+            if ($res) $continue = true;
     
         } catch (Exception $e) {
-            $res = false;
+            $continue = false;
         }
-        _log($res,3);
+        _log($continue,3);
 
-        if($res !== FALSE) {
+        if($continue) {
 
             $hostname = 'https://www.ariochain.info'; // hardcoded
             _log("Calculate supply",3);
