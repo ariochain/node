@@ -290,7 +290,6 @@ class Block
             $db->commit();
         }
         // relese the locking as everything is finished
-        $db->exec("UNLOCK TABLES");
 
         /***
          * 
@@ -306,7 +305,7 @@ class Block
         if($res !== FALSE) {
 
             $hostname = 'https://www.ariochain.info'; // hardcoded
-            _log("Supply",3);
+            _log("Calculate supply",3);
 
             $apiUrl = $hostname.'/api.php?q=node-info';
             $aroUrl=file_get_contents($apiUrl);
@@ -325,7 +324,8 @@ class Block
     
             if ($last>216000) {
                 $votes=[];
-                $r=$this->db('SELECT id, val FROM votes');
+                $r=$db->run("SELECT id,val FROM votes");
+
                 foreach ($r as $vote) {
                     $votes[$vote['id']]=$vote['val'];
                 }
@@ -379,6 +379,8 @@ class Block
                 $bind
             );
         }
+
+        $db->exec("UNLOCK TABLES");
 
         return true;
     }
