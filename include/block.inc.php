@@ -311,10 +311,10 @@ class Block
          * */
         $continue = false;
         try {
-            $res = $db->run(
+            $res = $db->single(
                 "SHOW TABLES LIKE 'networkstats'"
             );
-            if ($res) $continue = true;
+            if ($res !== false) $continue = true;
     
         } catch (Exception $e) {
             $continue = false;
