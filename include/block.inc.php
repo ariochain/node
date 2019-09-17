@@ -319,7 +319,7 @@ class Block
         } catch (Exception $e) {
             $continue = false;
         }
-        _log($continue,3);
+        //_log($continue,3);
 
         if($continue) {
 
