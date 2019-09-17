@@ -309,10 +309,14 @@ class Block
          * 
          * 
          * */
-
-        $res = $db->run(
-            "SHOW TABLES LIKE 'networkstats'"
-        );
+        try {
+            $res = $db->run(
+                "SHOW TABLES LIKE 'networkstats'"
+            );
+    
+        } catch (Exception $e) {
+            $res = false;
+        }
         _log($res,3);
 
         if($res !== FALSE) {
