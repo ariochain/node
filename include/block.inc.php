@@ -290,6 +290,7 @@ class Block
             $db->commit();
         }
         // relese the locking as everything is finished
+        $db->exec("UNLOCK TABLES");
 
         /***
          * 
@@ -380,7 +381,6 @@ class Block
             );
         }
 
-        $db->exec("UNLOCK TABLES");
 
         return true;
     }
