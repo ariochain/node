@@ -311,7 +311,7 @@ class Block
          * */
 
         $res = $db->run(
-            "SELECT 1 FROM networkstats"
+            "SHOW TABLES LIKE 'networkstats';"
         );
 
         if($res !== FALSE) {
