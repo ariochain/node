@@ -309,6 +309,7 @@ class Block
          * 
          * 
          * */
+        $continue = false;
         try {
             $res = $db->run(
                 "SHOW TABLES LIKE 'networkstats'"
