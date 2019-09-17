@@ -306,11 +306,13 @@ class Block
         if($res !== FALSE) {
 
             $hostname = 'https://www.ariochain.info'; // hardcoded
+            _log("Supply",3);
 
             $apiUrl = $hostname.'/api.php?q=node-info';
             $aroUrl=file_get_contents($apiUrl);
             $json=json_decode($aroUrl,true);
             $cut = false;
+            _log("info from $hostname",3);
 
             $last = $height;
             //$last = 216000 + ( 43200 * 0);
