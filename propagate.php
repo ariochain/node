@@ -63,7 +63,7 @@ if ((empty($peer) || $peer == 'all') && $type == "block") {
     $ewhr = "";
     // boradcasting to only certain peers
     if ($linear == true) {
-        $ewhr = " ORDER by RAND() LIMIT 25";
+        $ewhr = " ORDER by RAND() LIMIT 5";
     }
     $r = $db->run("SELECT * FROM peers WHERE blacklisted < UNIX_TIMESTAMP() AND reserve=0 $ewhr");
     foreach ($r as $x) {
