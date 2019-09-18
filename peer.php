@@ -162,7 +162,7 @@ if ($q == "peer") {
     // if sanity sync, refuse all
     if ($_config['sanity_sync'] == 1) {
         _log('['.$ip."] Block rejected due to sanity sync");
-        api_err("sanity-sync");
+        //api_err("sanity-sync");
     }
     $data['id'] = san($data['id']);
     $current = $block->current();
