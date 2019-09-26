@@ -403,7 +403,8 @@ class Block
             ];
 
             $res = $db->run(
-                "INSERT into networkstats SET id=:id, height=:height, difficulty=:difficulty, accounts=:accounts, transactions=:transactions, masternodes=:masternodes, supply=:supply, reward=:reward, mn_reward=:mn_reward",
+                "INSERT into networkstats SET id=:id, height=:height, difficulty=:difficulty, accounts=:accounts, transactions=:transactions, masternodes=:masternodes, 
+                supply=:supply, reward=:reward, mn_reward=:mn_reward, mn_daily_reward=:mn_daily_reward, mn_daily_cold_reward=:mn_daily_cold_reward",
                 $bind
             );
         }
