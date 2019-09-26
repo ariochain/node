@@ -329,6 +329,11 @@ class Block
             $apiUrl = $hostname.'/api.php?q=node-info';
             $aroUrl=file_get_contents($apiUrl);
             $json=json_decode($aroUrl,true);
+
+            $apiUrlm = $hostname.'/stats/masternodes';
+            $aroUrlm=file_get_contents($apiUrlm);
+            $jsonm=json_decode($aroUrlm,true);
+
             $cut = false;
             _log("info from $hostname",3);
 
@@ -380,6 +385,7 @@ class Block
             _log($supply,3);
 
             $data = $json['data'];
+            $mndata = $jsonm;
 
             $bind = [
                 ":id" => 0,
@@ -390,7 +396,10 @@ class Block
                 ":masternodes" => $data['masternodes'],
                 ":supply" => $supply,
                 ":reward" => $reward,
-                ":mn_reward" => $mn_reward_rate
+                ":mn_reward" => $mn_reward_rate,
+                ":mn_daily_reward" => $mndata['daily_active_reward'],
+                ":mn_daily_cold_reward" => $mndata['daily_cold_reward'],
+                
             ];
 
             $res = $db->run(
