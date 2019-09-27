@@ -104,16 +104,16 @@ if ($current['height']==1) {
     echo "Downloading the blockchain dump from arionum.info\n";
     $arofile=__DIR__ . '/tmp/aro.sql';
     if (file_exists("/usr/bin/curl")) {
-        system("/usr/bin/curl -o $arofile 'https://arionum.info/dump/aro.sql'", $ret);
+        // system("/usr/bin/curl -o $arofile 'https://arionum.info/dump/aro.sql'", $ret);
     } elseif (file_exists("/usr/bin/wget")) {
-        system("/usr/bin/wget -O $arofile 'https://arionum.info/dump/aro.sql'", $ret);
+        // system("/usr/bin/wget -O $arofile 'https://arionum.info/dump/aro.sql'", $ret);
     } else {
         die("/usr/bin/curl and /usr/bin/wget not installed or inaccessible. Please install either of them.");
     }
     
 
     echo "Importing the blockchain dump\n";
-    system("mysql -h ".escapeshellarg($db_host)." -u ".escapeshellarg($_config['db_user'])." -p".escapeshellarg($_config['db_pass'])." ".escapeshellarg($db_name). " < ".$arofile);
+    // system("mysql -h ".escapeshellarg($db_host)." -u ".escapeshellarg($_config['db_user'])." -p".escapeshellarg($_config['db_pass'])." ".escapeshellarg($db_name). " < ".$arofile);
     echo "Bootstrapping completed. Waiting 2mins for the tables to be unlocked.\n";
     
     while (1) {
