@@ -626,11 +626,11 @@ if ($current['height'] < $largest_height && $largest_height > 1) {
                     $to_remove=intval($argv[2]);
                 }
                 _log("Removing $to_remove blocks, the blockchain is stale.");
-                $block->pop($to_remove);
+                //$block->pop($to_remove);
                 $resyncing=true;
             } elseif ($current['date']<time()-(3600*24)) {
                 _log("Removing 200 blocks, the blockchain is stale.");
-                $block->pop(200);
+                //$block->pop(200);
 
                 $resyncing=true;
             }
