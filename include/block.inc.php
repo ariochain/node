@@ -345,7 +345,8 @@ class Block
     
     
             $mn_reward_rate=0.33;
-    
+    		if ($last <= 80000) $mn_reward_rate = 0;
+
             if ($last>216000) {
                 $votes=[];
                 $r=$db->run("SELECT id,val FROM votes");
