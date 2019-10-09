@@ -396,6 +396,7 @@ class Block
                 ":transactions" => $data['transactions'],
                 ":masternodes" => $data['masternodes'],
                 ":mn_paused" => $mndata['paused'],
+                ":blacklisted" => $mndata['blacklisted'],
                 ":supply" => $supply,
                 ":reward" => $reward,
                 ":mn_reward" => $mn_reward_rate,
@@ -405,7 +406,7 @@ class Block
             ];
 
             $res = $db->run(
-                "INSERT into networkstats SET id=:id, height=:height, difficulty=:difficulty, accounts=:accounts, transactions=:transactions, masternodes=:masternodes, mn_paused=:mn_paused,
+                "INSERT into networkstats SET id=:id, height=:height, difficulty=:difficulty, accounts=:accounts, transactions=:transactions, masternodes=:masternodes, mn_paused=:mn_paused, blacklisted=:blacklisted,
                 supply=:supply, reward=:reward, mn_reward=:mn_reward, mn_daily_reward=:mn_daily_reward, mn_daily_cold_reward=:mn_daily_cold_reward",
                 $bind
             );
