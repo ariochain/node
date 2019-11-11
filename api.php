@@ -737,20 +737,20 @@ if ($q == "getAddress") {
      */
     $dbVersion = $db->single("SELECT val FROM config WHERE cfg='dbversion'");
     $hostname = $db->single("SELECT val FROM config WHERE cfg='hostname'");
-    $acc = $db->single("SELECT COUNT(1) FROM accounts");
-    $tr = $db->single("SELECT COUNT(1) FROM transactions");
-    $masternodes = $db->single("SELECT COUNT(1) FROM masternode");
-    $mempool = $db->single("SELECT COUNT(1) FROM mempool");
+    //$acc = $db->single("SELECT COUNT(1) FROM accounts");
+    //$tr = $db->single("SELECT COUNT(1) FROM transactions");
+    //$masternodes = $db->single("SELECT COUNT(1) FROM masternode");
+    //$mempool = $db->single("SELECT COUNT(1) FROM mempool");
     $peers = $db->single("SELECT COUNT(1) FROM peers WHERE blacklisted<UNIX_TIMESTAMP()");
     api_echo([
         'hostname'     => $hostname,
         'version'      => VERSION,
-        'dbversion'    => $dbVersion,
-        'accounts'     => $acc,
-        'transactions' => $tr,
-        'mempool'      => $mempool,
-        'masternodes'  => $masternodes,
-        'peers'        => $peers
+        'dbversion'    => $dbVersion
+    //    'accounts'     => $acc,
+    //    'transactions' => $tr,
+    //    'mempool'      => $mempool,
+    //    'masternodes'  => $masternodes,
+    //    'peers'        => $peers
     ]);
 } elseif ($q === 'checkAddress') {
     /**
