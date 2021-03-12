@@ -817,7 +817,7 @@ if ($q == "getAddress") {
     }
 
 
-    $r=$db->run("SELECT asset, alias, assets_balance.balance FROM assets_balance LEFT JOIN accounts ON accounts.id=assets_balance.asset $whr LIMIT 1000",$bind);
+    $r=$db->run("SELECT asset, alias, account, assets_balance.balance FROM assets_balance LEFT JOIN accounts ON accounts.id=assets_balance.asset $whr LIMIT 1000",$bind);
     api_echo($r);
 } elseif ($q === "asset-orders"){
     $asset = san($data['asset']);
