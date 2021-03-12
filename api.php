@@ -800,8 +800,8 @@ if ($q == "getAddress") {
         $account = $acc->get_address($public_key);
     }
 
-    if (empty($account)) {
-        api_err("Invalid account id");
+    if(empty($asset)&&empty($account)){
+        api_err("An asset or an account are necessary");
     }
     $account = san($account);
 
