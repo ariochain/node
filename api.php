@@ -790,6 +790,7 @@ if ($q == "getAddress") {
     api_echo(true);
 } elseif ($q === "assetBalance"){
 
+    $asset = san($data['asset']);
     $public_key = $data['public_key'];
     $account = $data['account'];
     if (!empty($public_key) && strlen($public_key) < 32) {
@@ -804,7 +805,19 @@ if ($q == "getAddress") {
     }
     $account = san($account);
 
-    $r=$db->run("SELECT asset, alias, assets_balance.balance FROM assets_balance LEFT JOIN accounts ON accounts.id=assets_balance.asset WHERE assets_balance.account=:account LIMIT 1000",[":account"=>$account]);
+    $whr="WHERE assets_balance.";
+    $bind=[];
+    if(!empty($asset)){
+        $whr.="asset=:asset ";
+        $bind[':asset']=$asset;
+    }
+    if(!empty($account)){
+        $whr.="account=:account ";
+        $bind[':account']=$account;
+    }
+
+
+    $r=$db->run("SELECT asset, alias, assets_balance.balance FROM assets_balance LEFT JOIN accounts ON accounts.id=assets_balance.asset $whr LIMIT 1000",$bind);
     api_echo($r);
 } elseif ($q === "asset-orders"){
     $asset = san($data['asset']);
