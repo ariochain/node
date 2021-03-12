@@ -804,10 +804,10 @@ if ($q == "getAddress") {
         api_err("An asset or an account are necessary");
     }
 
-    if(isset($asset)&&isset($account)){
+    if(!empty($asset)&&!empty($account)){
         api_err("Choose account or asset parameter");
     }
-    
+
     $whr="WHERE assets_balance.";
     $bind=[];
     if(!empty($asset)){
